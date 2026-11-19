@@ -1,0 +1,57 @@
+@import "tailwindcss";
+
+@theme {
+  --color-ivory: #F8F3EE;
+  --color-cream: #F2E8DF;
+  --color-blush: #E8D5CA;
+  --color-champagne: #C5A27E;
+  --color-champagne-dark: #B28E68;
+  --color-taupe: #A58A78;
+  --color-espresso: #382D28;
+  --color-espresso-soft: #5A4A42;
+
+  --font-serif: "Cormorant Garamond", Georgia, "Times New Roman", serif;
+  --font-sans: "Plus Jakarta Sans", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+}
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+    font-family: var(--font-sans);
+    background-color: #F8F3EE;
+    color: #382D28;
+  }
+
+  h1, h2, h3, h4, .font-serif {
+    font-family: var(--font-serif);
+    text-wrap: balance;
+  }
+
+  a, button {
+    transition-timing-function: cubic-bezier(0.16, 1, 0.3, 1);
+  }
+}
+
+@keyframes luxuryFadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-luxury-fade {
+  animation: luxuryFadeIn 0.65s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .animate-luxury-fade {
+    animation: none;
+  }
+  html {
+    scroll-behavior: auto;
+  }
+}

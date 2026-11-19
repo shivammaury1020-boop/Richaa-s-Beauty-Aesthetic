@@ -1,0 +1,6 @@
+{
+  "name": "Richaa's Beauty & Aesthetic",
+  "description": "Luxury UK beauty and aesthetics salon offering personalised lash, brow, facial, skin rejuvenation, waxing, and permanent makeup treatments.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

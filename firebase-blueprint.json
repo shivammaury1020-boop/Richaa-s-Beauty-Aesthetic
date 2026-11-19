@@ -1,0 +1,244 @@
+{
+  "entities": {
+    "AdminProfile": {
+      "title": "AdminProfile",
+      "description": "Authorized salon administrator profile record.",
+      "type": "object",
+      "properties": {
+        "uid": { "type": "string", "maxLength": 128 },
+        "email": { "type": "string", "format": "email", "maxLength": 200 },
+        "displayName": { "type": "string", "maxLength": 120 },
+        "role": { "type": "string", "enum": ["owner", "admin"] },
+        "createdAt": { "type": "string", "format": "date-time" },
+        "updatedAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["uid", "email", "role", "createdAt", "updatedAt"]
+    },
+    "ServiceCategory": {
+      "title": "ServiceCategory",
+      "description": "Treatment category used to organize salon services.",
+      "type": "object",
+      "properties": {
+        "name": { "type": "string", "minLength": 2, "maxLength": 80 },
+        "pricingGroup": { "type": "string", "maxLength": 60 },
+        "sortOrder": { "type": "number" },
+        "active": { "type": "boolean" },
+        "updatedAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["name", "pricingGroup", "sortOrder", "active", "updatedAt"]
+    },
+    "TreatmentService": {
+      "title": "TreatmentService",
+      "description": "Salon beauty or aesthetic treatment with pricing and display metadata.",
+      "type": "object",
+      "properties": {
+        "slug": { "type": "string", "minLength": 2, "maxLength": 120, "pattern": "^[a-z0-9-]+$" },
+        "name": { "type": "string", "minLength": 2, "maxLength": 120 },
+        "category": { "type": "string", "maxLength": 60 },
+        "serviceGroup": { "type": "string", "maxLength": 80 },
+        "shortDescription": { "type": "string", "maxLength": 500 },
+        "fullDescription": { "type": "string", "maxLength": 2500 },
+        "benefits": { "type": "array" },
+        "treatmentSteps": { "type": "array" },
+        "aftercareNotes": { "type": "array" },
+        "image": { "type": "string", "maxLength": 200000 },
+        "imageAlt": { "type": "string", "maxLength": 240 },
+        "icon": { "type": "string", "maxLength": 40 },
+        "priceLabel": { "type": "string", "maxLength": 80 },
+        "promoPriceLabel": { "type": "string", "maxLength": 80 },
+        "durationLabel": { "type": "string", "maxLength": 60 },
+        "pricingNotes": { "type": "string", "maxLength": 300 },
+        "featured": { "type": "boolean" },
+        "active": { "type": "boolean" },
+        "sortOrder": { "type": "number" },
+        "createdAt": { "type": "string", "format": "date-time" },
+        "updatedAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["slug", "name", "category", "shortDescription", "fullDescription", "image", "imageAlt", "icon", "featured", "active", "createdAt", "updatedAt"]
+    },
+    "Appointment": {
+      "title": "Appointment",
+      "description": "Salon appointment booking record managed by authorized administrators.",
+      "type": "object",
+      "properties": {
+        "customerId": { "type": "string", "maxLength": 128 },
+        "customerName": { "type": "string", "minLength": 2, "maxLength": 120 },
+        "customerPhone": { "type": "string", "maxLength": 40 },
+        "customerEmail": { "type": "string", "maxLength": 200 },
+        "serviceId": { "type": "string", "maxLength": 128 },
+        "serviceName": { "type": "string", "maxLength": 140 },
+        "appointmentDate": { "type": "string", "pattern": "^\\d{4}-\\d{2}-\\d{2}$", "maxLength": 10 },
+        "appointmentTime": { "type": "string", "maxLength": 20 },
+        "status": { "type": "string", "enum": ["pending", "confirmed", "completed", "cancelled"] },
+        "source": { "type": "string", "enum": ["manual", "external_link", "synced_api"] },
+        "internalNotes": { "type": "string", "maxLength": 2000 },
+        "createdAt": { "type": "string", "format": "date-time" },
+        "updatedAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["customerName", "customerPhone", "serviceName", "appointmentDate", "appointmentTime", "status", "source", "createdAt", "updatedAt"]
+    },
+    "Customer": {
+      "title": "Customer",
+      "description": "Private salon client directory profile (PII restricted to admins).",
+      "type": "object",
+      "properties": {
+        "fullName": { "type": "string", "minLength": 2, "maxLength": 120 },
+        "email": { "type": "string", "maxLength": 200 },
+        "phone": { "type": "string", "maxLength": 40 },
+        "preferredTreatments": { "type": "string", "maxLength": 300 },
+        "notes": { "type": "string", "maxLength": 2000 },
+        "createdAt": { "type": "string", "format": "date-time" },
+        "updatedAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["fullName", "phone", "createdAt", "updatedAt"]
+    },
+    "Enquiry": {
+      "title": "Enquiry",
+      "description": "Public contact form enquiry submission (public create only, admin read/manage).",
+      "type": "object",
+      "properties": {
+        "fullName": { "type": "string", "minLength": 2, "maxLength": 120 },
+        "email": { "type": "string", "format": "email", "maxLength": 200 },
+        "phone": { "type": "string", "maxLength": 40 },
+        "treatmentInterest": { "type": "string", "maxLength": 140 },
+        "message": { "type": "string", "minLength": 10, "maxLength": 2500 },
+        "status": { "type": "string", "enum": ["New", "Read", "Resolved"] },
+        "createdAt": { "type": "string", "format": "date-time" },
+        "updatedAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["fullName", "email", "phone", "treatmentInterest", "message", "status", "createdAt", "updatedAt"]
+    },
+    "GalleryImage": {
+      "title": "GalleryImage",
+      "description": "Public salon gallery image or before-and-after transformation pair.",
+      "type": "object",
+      "properties": {
+        "title": { "type": "string", "minLength": 2, "maxLength": 140 },
+        "category": { "type": "string", "maxLength": 60 },
+        "caption": { "type": "string", "maxLength": 500 },
+        "itemType": { "type": "string", "enum": ["standard", "before_after"] },
+        "image": { "type": "string", "maxLength": 200000 },
+        "beforeImage": { "type": "string", "maxLength": 200000 },
+        "imageAlt": { "type": "string", "maxLength": 240 },
+        "isPlaceholder": { "type": "boolean" },
+        "visible": { "type": "boolean" },
+        "createdAt": { "type": "string", "format": "date-time" },
+        "updatedAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["title", "category", "caption", "itemType", "image", "imageAlt", "isPlaceholder", "visible", "createdAt", "updatedAt"]
+    },
+    "BusinessSettings": {
+      "title": "BusinessSettings",
+      "description": "Public brand details, contact channels, logo, booking integration, and copy.",
+      "type": "object",
+      "properties": {
+        "brandName": { "type": "string", "maxLength": 140 },
+        "tagline": { "type": "string", "maxLength": 300 },
+        "businessDescription": { "type": "string", "maxLength": 1200 },
+        "logoUrl": { "type": "string", "maxLength": 200000 },
+        "phoneDisplay": { "type": "string", "maxLength": 40 },
+        "phoneHref": { "type": "string", "maxLength": 50 },
+        "whatsappDigits": { "type": "string", "maxLength": 30 },
+        "whatsappCta": { "type": "string", "maxLength": 60 },
+        "whatsappPrefill": { "type": "string", "maxLength": 300 },
+        "email": { "type": "string", "maxLength": 200 },
+        "addressConfirmed": { "type": "boolean" },
+        "addressText": { "type": "string", "maxLength": 300 },
+        "openingHoursConfirmed": { "type": "boolean" },
+        "openingHoursText": { "type": "string", "maxLength": 300 },
+        "bookingUrlConfigured": { "type": "boolean" },
+        "bookingUrl": { "type": "string", "maxLength": 500 },
+        "bookingProviderLabel": { "type": "string", "maxLength": 140 },
+        "bookingIntegrationMode": { "type": "string", "enum": ["external_link", "embedded_widget", "api_ready"] },
+        "allowBookingEmbed": { "type": "boolean" },
+        "instagramConfigured": { "type": "boolean" },
+        "instagramHandle": { "type": "string", "maxLength": 120 },
+        "instagramUrl": { "type": "string", "maxLength": 300 },
+        "reviewPlatformConfigured": { "type": "boolean" },
+        "reviewPlatformName": { "type": "string", "maxLength": 120 },
+        "reviewPlatformUrl": { "type": "string", "maxLength": 300 },
+        "emailNotificationsEnabled": { "type": "boolean" },
+        "notificationEmail": { "type": "string", "maxLength": 200 },
+        "updatedAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["brandName", "tagline", "phoneDisplay", "email", "updatedAt"]
+    },
+    "ClientReview": {
+      "title": "ClientReview",
+      "description": "Verified owner-approved client review.",
+      "type": "object",
+      "properties": {
+        "clientName": { "type": "string", "minLength": 2, "maxLength": 100 },
+        "treatment": { "type": "string", "maxLength": 120 },
+        "rating": { "type": "number" },
+        "comment": { "type": "string", "minLength": 5, "maxLength": 1500 },
+        "dateLabel": { "type": "string", "maxLength": 60 },
+        "verifiedSource": { "type": "string", "maxLength": 80 },
+        "published": { "type": "boolean" },
+        "createdAt": { "type": "string", "format": "date-time" },
+        "updatedAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["clientName", "treatment", "rating", "comment", "published", "createdAt", "updatedAt"]
+    },
+    "AdminNotification": {
+      "title": "AdminNotification",
+      "description": "Internal admin alert for bookings, enquiries, and status changes.",
+      "type": "object",
+      "properties": {
+        "type": { "type": "string", "enum": ["enquiry", "booking", "status_change", "system"] },
+        "title": { "type": "string", "maxLength": 160 },
+        "body": { "type": "string", "maxLength": 500 },
+        "read": { "type": "boolean" },
+        "relatedId": { "type": "string", "maxLength": 128 },
+        "createdAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["type", "title", "body", "read", "createdAt"]
+    }
+  },
+  "firestore": {
+    "/admins/{adminId}": {
+      "schema": { "$ref": "#/entities/AdminProfile" },
+      "description": "Authorised admin UID registry."
+    },
+    "/admin_profiles/{adminId}": {
+      "schema": { "$ref": "#/entities/AdminProfile" },
+      "description": "Authorized admin profile metadata."
+    },
+    "/service_categories/{categoryId}": {
+      "schema": { "$ref": "#/entities/ServiceCategory" },
+      "description": "Publicly readable service category configuration; admin writable."
+    },
+    "/services/{serviceId}": {
+      "schema": { "$ref": "#/entities/TreatmentService" },
+      "description": "Publicly readable beauty services and pricing; admin CRUD."
+    },
+    "/appointments/{appointmentId}": {
+      "schema": { "$ref": "#/entities/Appointment" },
+      "description": "Private salon appointments; strictly admin-only read/write."
+    },
+    "/customers/{customerId}": {
+      "schema": { "$ref": "#/entities/Customer" },
+      "description": "Private salon customer PII directory; strictly admin-only read/write."
+    },
+    "/enquiries/{enquiryId}": {
+      "schema": { "$ref": "#/entities/Enquiry" },
+      "description": "Customer enquiries; validated public create only, strictly admin-only read/update/delete."
+    },
+    "/gallery_images/{imageId}": {
+      "schema": { "$ref": "#/entities/GalleryImage" },
+      "description": "Publicly readable gallery and before/after items; admin CRUD."
+    },
+    "/business_settings/{settingId}": {
+      "schema": { "$ref": "#/entities/BusinessSettings" },
+      "description": "Publicly readable salon configuration and logo; admin writable."
+    },
+    "/reviews/{reviewId}": {
+      "schema": { "$ref": "#/entities/ClientReview" },
+      "description": "Verified client reviews; public reads published items, admin CRUD."
+    },
+    "/notifications/{notificationId}": {
+      "schema": { "$ref": "#/entities/AdminNotification" },
+      "description": "Private admin notification log; strictly admin-only read/write."
+    }
+  }
+}
